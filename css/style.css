@@ -60,6 +60,7 @@ ul {
 header img {
   max-height: 30vh;
   object-fit: cover;
+  max-width: 100%;
 }
 
 .home .card {
