@@ -1,35 +1,30 @@
-import { Ui } from "./UI.js";
+import { UI } from "./UI.js";
 
-export class Details {
+export class GameDetails {
   constructor(id) {
-    this.Ui = new Ui();
     document.getElementById("btnClose").addEventListener("click", () => {
-      document.querySelector(".games").classList.remove("d-none");
-      document.querySelector(".details").classList.add("d-none");
+      document.getElementById("details").classList.add("d-none");
+      document.getElementById("games").classList.remove("d-none");
     });
-    this.getDetails(id);
+    this.loading = document.querySelector(".loading");
+    this.displayGameDetails(id);
   }
 
-  getDetails(idGames) {
-    const loading = document.querySelector(".loading");
-    loading.classList.remove("d-none");
-    let options = {
+  async displayGameDetails(id) {
+    this.loading.classList.remove("d-none");
+    const options = {
       method: "GET",
       headers: {
-        "X-RapidAPI-Key": "63488fa046msh9fce75127b8ac9dp1cd95cjsnb63298530984",
+        "X-RapidAPI-Key": "8d89f1e3b5msh0d2f1e87f267d86p1b923fjsnc626d19521d3",
         "X-RapidAPI-Host": "free-to-play-games-database.p.rapidapi.com",
       },
     };
-
-    fetch(
-      `https://free-to-play-games-database.p.rapidapi.com/api/game?id=${idGames}`,
+    const api = await fetch(
+      `https://free-to-play-games-database.p.rapidapi.com/api/game?id=${id}`,
       options
-    )
-      .then((response) => response.json())
-      .then((response) => this.Ui.displayDetails(response))
-      .catch((err) => console.error(err))
-      .finally(() => {
-        loading.classList.add("d-none");
-      });
+    );
+    const response = await api.json();
+    this.loading.classList.add("d-none");
+    new UI().displayGameDetails(response);
   }
 }
