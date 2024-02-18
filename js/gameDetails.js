@@ -24,7 +24,6 @@ export class GameDetails {
       options
     );
     const response = await api.json();
-    console.log(response);
     this.loading.classList.add("d-none");
     new UI().displayGameDetails(response);
   }
